@@ -16,6 +16,8 @@ class RoomBooking:
     def book(self, room, day, start, end, name):
         if room not in ROOMS or day not in DAYS:
             return False
+        if not isinstance(name, str) or not name.strip():
+            return False
         if not _is_int(start) or not _is_int(end):
             return False
         if start < OPEN or end > CLOSE:
