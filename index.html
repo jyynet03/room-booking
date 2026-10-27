@@ -29,8 +29,8 @@
 <section>
   <h2>예약</h2>
   <div class="row">
-    <label>강의실<select id="b_room"></select></label>
-    <label>요일<select id="b_day"></select></label>
+    <label>강의실<input id="b_room" list="rooms" value="A101"></label>
+    <label>요일<input id="b_day" list="days" value="월"></label>
   </div>
   <div class="row">
     <label>시작(시)<input id="b_start" type="number" step="any" value="10"></label>
@@ -44,8 +44,8 @@
 <section>
   <h2>취소</h2>
   <div class="row">
-    <label>강의실<select id="c_room"></select></label>
-    <label>요일<select id="c_day"></select></label>
+    <label>강의실<input id="c_room" list="rooms" value="A101"></label>
+    <label>요일<input id="c_day" list="days" value="월"></label>
   </div>
   <label>시작 시각(시)<input id="c_start" type="number" step="any" value="10"></label>
   <label>이름<input id="c_name" placeholder="예약한 사람 이름"></label>
@@ -56,8 +56,8 @@
 <section>
   <h2>시간표</h2>
   <div class="row">
-    <label>강의실<select id="s_room" onchange="doSchedule()"></select></label>
-    <label>요일<select id="s_day" onchange="doSchedule()"></select></label>
+    <label>강의실<input id="s_room" list="rooms" value="A101" onchange="doSchedule()"></label>
+    <label>요일<input id="s_day" list="days" value="월" onchange="doSchedule()"></label>
   </div>
   <button onclick="doSchedule()" disabled>시간표 보기</button>
   <div id="s_res"></div>
@@ -65,13 +65,11 @@
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script>
-const ROOMS = ["A101", "A102", "B201", "C999"];
-const DAYS = ["월", "화", "수", "목", "금", "토", "일"];
-for (const p of ["b", "c", "s"]) {
-  fill(p + "_room", ROOMS); fill(p + "_day", DAYS);
-}
-function fill(id, items) {
-  document.getElementById(id).innerHTML = items.map(v => `<option>${v}</option>`).join("");
+for (const [id, items] of [["rooms", ["A101", "A102", "B201"]], ["days", ["월", "화", "수", "목", "금"]]]) {
+  const dl = document.createElement("datalist");
+  dl.id = id;
+  dl.innerHTML = items.map(v => `<option value="${v}">`).join("");
+  document.body.appendChild(dl);
 }
 const val = id => document.getElementById(id).value;
 
